@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(new MyApp());
+void main() => runApp(new SalvageApp());
 
-class MyApp extends StatelessWidget {
+class SalvageApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -17,9 +17,13 @@ class MyApp extends StatelessWidget {
         // "hot reload" (press "r" in the console where you ran "flutter run",
         // or press Run > Flutter Hot Reload in IntelliJ). Notice that the
         // counter didn't reset back to zero; the application is not restarted.
-        primarySwatch: Colors.blue,
+        primaryColor: Colors.green[800],
+        primaryColorLight: Color(0xFF60ad5e),
+        primaryColorDark: Color(0xFF005005),
+        accentColor: Colors.lime[500],
+        brightness: Brightness.light,
       ),
-      home: new MyHomePage(title: 'Flutter Demo Home Page'),
+      home: new MyHomePage(title: 'Salvage'),
     );
   }
 }
@@ -65,10 +69,23 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return new Scaffold(
-      appBar: new AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: new Text(widget.title),
+      bottomNavigationBar: BottomAppBar(
+        hasNotch: false,
+        color: Colors.green[600],
+        child: new Row(
+          children: <Widget>[
+            IconButton(
+              color: Theme.of(context).buttonColor,
+              icon: Icon(Icons.menu),
+              onPressed: _incrementCounter,
+            ),
+            IconButton(
+              color: Theme.of(context).buttonColor,
+              icon: Icon(Icons.search),
+              onPressed: () {},
+            ),
+          ],
+        ),
       ),
       body: new Center(
         // Center is a layout widget. It takes a single child and positions it
@@ -99,10 +116,18 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: new FloatingActionButton(
         onPressed: _incrementCounter,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              bottomRight: Radius.circular(15.0),
+              bottomLeft: Radius.circular(4.0),
+              topLeft: Radius.circular(4.0),
+              topRight: Radius.circular(4.0)),
+        ),
         tooltip: 'Increment',
-        child: new Icon(Icons.add),
+        child: new Icon(Icons.photo_camera),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
