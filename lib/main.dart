@@ -14,8 +14,46 @@ class SalvageApp extends StatelessWidget {
         primaryColorDark: Color(0xFF005005),
         accentColor: Colors.lime[500],
         brightness: Brightness.light,
+        canvasColor: Colors.transparent,
       ),
       home: new ItemView(title: 'Salvage'),
+    );
+  }
+}
+
+class ListSelect extends StatefulWidget {
+  ListSelect(this.title);
+  final String title;
+  @override
+  _ListSelectState createState() => new _ListSelectState();
+}
+
+class _ListSelectState extends State<ListSelect> {
+  IconData leadingIcon = Icons.home;
+  @override
+  Widget build(BuildContext context) {
+    return new Container(
+      padding: new EdgeInsets.only(left: 10.0, right: 10.0),
+      child: new Container(
+        decoration: new BoxDecoration(
+            //color: Color(0x232e7d32),
+            borderRadius: new BorderRadius.all(Radius.circular(20.0))),
+        child: new Material(
+          child: new InkWell(
+              child: new ListTile(
+                selected: true,
+                onTap: () {
+                  setState(() {
+                    leadingIcon = Icons.camera;
+                  });
+                },
+                leading: new Icon(leadingIcon),
+                enabled: true,
+                title: new Text(widget.title),
+              ),
+              borderRadius: new BorderRadius.all(Radius.circular(20.0))),
+        ),
+      ),
     );
   }
 }
@@ -36,6 +74,53 @@ class _ItemViewState extends State<ItemView> {
     });
   }
 
+  void _modalBottomSheetMenu() {
+    showModalBottomSheet(
+        context: context,
+        builder: (builder) {
+          return new Container(
+            color: Colors.transparent,
+            child: new Container(
+              decoration: new BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: new BorderRadius.only(
+                      topLeft: const Radius.circular(11.0),
+                      topRight: const Radius.circular(11.0))),
+              child: ListTileTheme(
+                selectedColor: Theme.of(context).primaryColor,
+                child: new ListView(
+                  children: <Widget>[
+                    new UserAccountsDrawerHeader(
+                      decoration: new BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                          borderRadius: new BorderRadius.only(
+                              topLeft: const Radius.circular(10.0),
+                              topRight: const Radius.circular(10.0))),
+                      accountName: Text("John Doe"),
+                      accountEmail: Text("123456@jp.com"),
+                      currentAccountPicture: CircleAvatar(
+                        backgroundColor: Theme.of(context).accentColor,
+                        child: Text("JD"),
+                      ),
+                    ),
+                    new ListSelect("Items"),
+                    new ListTile(
+                      title: new Text('Second Menu Item'),
+                      onTap: () {},
+                    ),
+                    new Divider(),
+                    new ListTile(
+                      title: new Text('About'),
+                      onTap: () {},
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -47,30 +132,35 @@ class _ItemViewState extends State<ItemView> {
             IconButton(
               color: Theme.of(context).buttonColor,
               icon: Icon(Icons.menu),
-              onPressed: _incrementCounter,
+              onPressed: _modalBottomSheetMenu,
             ),
             IconButton(
               color: Theme.of(context).buttonColor,
               icon: Icon(Icons.search),
-              onPressed: () {},
+              onPressed: _incrementCounter,
             ),
           ],
         ),
       ),
-      body: new Center(
-        child: new ListView(
-          shrinkWrap: true,
-          padding: const EdgeInsets.all(20.0),
-          //mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            new Text(
-              'You have pushed the button this many times:',
-            ),
-            new Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
+      body: new Container(
+        decoration: new BoxDecoration(
+          color: Colors.white,
+        ),
+        child: Center(
+          child: new ListView(
+            shrinkWrap: true,
+            padding: const EdgeInsets.all(20.0),
+            //mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              new Text(
+                'You have pushed the button this many times:',
+              ),
+              new Text(
+                '$_counter',
+                style: Theme.of(context).textTheme.display1,
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
