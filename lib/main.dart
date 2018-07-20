@@ -30,28 +30,31 @@ class ListSelect extends StatefulWidget {
 
 class _ListSelectState extends State<ListSelect> {
   IconData leadingIcon = Icons.home;
+  bool selected = false;
   @override
   Widget build(BuildContext context) {
     return new Container(
       padding: new EdgeInsets.only(left: 10.0, right: 10.0),
-      child: new Container(
-        decoration: new BoxDecoration(
-            //color: Color(0x232e7d32),
-            borderRadius: new BorderRadius.all(Radius.circular(20.0))),
-        child: new Material(
-          child: new InkWell(
-              child: new ListTile(
-                selected: true,
-                onTap: () {
-                  setState(() {
-                    leadingIcon = Icons.camera;
-                  });
+      decoration: new BoxDecoration(
+        borderRadius: new BorderRadius.all(Radius.circular(10.0)),
+      ),
+      child: new Material(
+        borderRadius: new BorderRadius.all(Radius.circular(10.0)),
+        child: new InkWell(
+          child: new ListTile(
+            selected: selected,
+            onTap: () {
+              setState(
+                () {
+                  selected = !selected;
+                  leadingIcon = Icons.camera;
                 },
-                leading: new Icon(leadingIcon),
-                enabled: true,
-                title: new Text(widget.title),
-              ),
-              borderRadius: new BorderRadius.all(Radius.circular(20.0))),
+              );
+            },
+            leading: new Icon(leadingIcon),
+            enabled: true,
+            title: new Text(widget.title),
+          ),
         ),
       ),
     );
@@ -106,12 +109,12 @@ class _ItemViewState extends State<ItemView> {
                     new ListSelect("Items"),
                     new ListTile(
                       title: new Text('Second Menu Item'),
-                      onTap: () {},
+                      onTap: _incrementCounter,
                     ),
                     new Divider(),
                     new ListTile(
                       title: new Text('About'),
-                      onTap: () {},
+                      onTap: _incrementCounter,
                     ),
                   ],
                 ),
