@@ -127,7 +127,7 @@ class _ItemViewState extends State<ItemView> {
                       topRight: const Radius.circular(11.0))),
               child: ListTileTheme(
                 selectedColor: Colors.lime[500],
-                child: new ListView(
+                child: new Column(
                   children: <Widget>[
                     new UserAccountsDrawerHeader(
                       decoration: new BoxDecoration(
@@ -142,11 +142,15 @@ class _ItemViewState extends State<ItemView> {
                         child: Text("JD"),
                       ),
                     ),
-                    items,
-                    services,
-                    new Divider(),
-                    saved,
-                    salvages,
+                    Expanded(
+                      child: new ListView(children: <Widget>[
+                        items,
+                        services,
+                        new Divider(),
+                        saved,
+                        salvages,
+                      ]),
+                    )
                   ],
                 ),
               ),
