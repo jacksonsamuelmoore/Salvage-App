@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter/services.dart';
 
 class FrontPage extends StatelessWidget {
   @override
@@ -21,9 +22,17 @@ class FrontPage extends StatelessWidget {
           child: Column(
             children: <Widget>[
               SizedBox(height: 65.0),
-              Image.asset(
-                'images/Icon4.png',
-                width: 120,
+              Material(
+                color: Colors.white,
+                shape: CircleBorder(),
+                elevation: 16,
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Image.asset(
+                    'images/Icon4.png',
+                    width: 120,
+                  ),
+                ),
               ),
               SizedBox(height: 50),
               Padding(

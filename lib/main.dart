@@ -1,15 +1,26 @@
-import 'dart:async';
-
 import 'package:Salvage/SavedView.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/services.dart';
 import 'ItemView.dart';
+import 'Search.dart';
 import 'ServicesView.dart';
 import 'SavedView.dart';
 import 'SalvagesView.dart';
 import 'FrontPage.dart';
 
-void main() => runApp(new SalvageApp());
+void main() {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.lime[500], //top bar color
+    statusBarIconBrightness: Brightness.dark, //top bar icons
+    systemNavigationBarColor: Colors.white, //bottom bar color
+    systemNavigationBarIconBrightness: Brightness.dark, //bottom bar icons
+  ));
+  SystemChrome.setPreferredOrientations(
+          [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
+      .then((_) => runApp(new SalvageApp()));
+}
+
 final GlobalKey<_AppScaffoldState> _stateKey =
     new GlobalKey<_AppScaffoldState>();
 
@@ -26,7 +37,7 @@ class SalvageApp extends StatelessWidget {
           primaryColorDark: Color(0xFF005005),
           accentColor: Colors.lime[500],
           brightness: Brightness.light,
-          canvasColor: Colors.transparent,
+          //canvasColor: Colors.transparent,
           buttonColor: Colors.white),
       routes: {
         '/': (context) => new FrontPage(),
@@ -46,6 +57,7 @@ class AppScaffold extends StatefulWidget {
 
 class _AppScaffoldState extends State<AppScaffold> {
   String selectedBody = 'Items';
+  List lastSelected = ['Items'];
   final Map bodies = {
     'Salvages': new SalvagesView(),
     'Items': new ItemView(),
@@ -54,46 +66,110 @@ class _AppScaffoldState extends State<AppScaffold> {
   };
   void setBody(route) {
     setState(() {
+      lastSelected.add(selectedBody);
       selectedBody = route;
     });
   }
 
+  void backOne() {
+    setState(() {
+      selectedBody = lastSelected.last;
+    });
+    lastSelected.removeLast();
+  }
+
   Widget build(context) {
-    return Scaffold(
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.green[600],
-        child: new Row(
-          children: <Widget>[
-            IconButton(
-              color: Theme.of(context).buttonColor,
-              icon: Icon(Icons.menu),
-              onPressed: () {
-                _modalBottomSheetMenu(context, selectedBody, _stateKey);
-              },
-            ),
-            IconButton(
-              color: Theme.of(context).buttonColor,
-              icon: Icon(Icons.search),
-              onPressed: () => null,
-            ),
-          ],
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.white, //top bar color
+      statusBarIconBrightness: Brightness.dark, //top bar icons
+      systemNavigationBarColor: Colors.white, //bottom bar color
+      systemNavigationBarIconBrightness: Brightness.dark, //bottom bar icons
+    ));
+    return WillPopScope(
+      onWillPop: () async {
+        backOne();
+        return false;
+      },
+      child: Scaffold(
+        //backgroundColor: Colors.transparent,
+        bottomNavigationBar: BottomAppBar(
+          color: Colors.green[600],
+          child: new Row(
+            children: <Widget>[
+              IconButton(
+                color: Theme.of(context).buttonColor,
+                icon: Icon(Icons.menu),
+                onPressed: () {
+                  _modalBottomSheetMenu(context, selectedBody, _stateKey);
+                },
+              ),
+              IconButton(
+                color: Theme.of(context).buttonColor,
+                icon: Icon(Icons.search),
+                onPressed: () => null,
+              ),
+            ],
+          ),
         ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      floatingActionButton: new FloatingActionButton(
-        onPressed: () => null,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              bottomRight: Radius.circular(15.0),
-              bottomLeft: Radius.circular(4.0),
-              topLeft: Radius.circular(4.0),
-              topRight: Radius.circular(4.0)),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+        floatingActionButton: new FloatingActionButton(
+          onPressed: () => null,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                bottomRight: Radius.circular(15.0),
+                bottomLeft: Radius.circular(4.0),
+                topLeft: Radius.circular(4.0),
+                topRight: Radius.circular(4.0)),
+          ),
+          tooltip: 'Camera',
+          child: new Icon(Icons.photo_camera),
         ),
-        tooltip: 'Camera',
-        child: new Icon(Icons.photo_camera),
+        body: SafeArea(
+          child: Stack(
+            children: <Widget>[
+              bodies[selectedBody],
+              Positioned(
+                top: 0.0,
+                left: 0.0,
+                right: 0.0,
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Search()),
+                      );
+                    },
+                    child: AppBar(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            bottomRight: Radius.circular(15.0),
+                            bottomLeft: Radius.circular(4.0),
+                            topLeft: Radius.circular(4.0),
+                            topRight: Radius.circular(4.0)),
+                      ),
+                      textTheme: new TextTheme(
+                        title: new TextStyle(
+                            color: Colors.grey,
+                            fontSize:
+                                Theme.of(context).textTheme.title.fontSize),
+                      ),
+                      iconTheme: new IconThemeData(color: Colors.grey),
+                      elevation: 3.0,
+                      backgroundColor: Colors.white,
+                      leading: Icon(Icons.search, color: Colors.grey[700]),
+                      title: Text("Search..."),
+                      titleSpacing: 1,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        // This trailing comma makes auto-formatting nicer for build methods.
       ),
-      body: bodies[selectedBody],
-      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
@@ -131,44 +207,45 @@ void _modalBottomSheetMenu(
   );
 
   showModalBottomSheet(
+    backgroundColor: Colors.transparent,
     context: context,
     builder: (builder) {
       return new Container(
-        color: Colors.transparent,
-        child: new Container(
-          decoration: new BoxDecoration(
-              color: Colors.white,
-              borderRadius: new BorderRadius.only(
-                  topLeft: const Radius.circular(11.0),
-                  topRight: const Radius.circular(11.0))),
-          child: ListTileTheme(
-            selectedColor: Colors.lime[500],
-            child: new Column(
-              children: <Widget>[
-                new UserAccountsDrawerHeader(
-                  decoration: new BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      borderRadius: new BorderRadius.only(
-                          topLeft: const Radius.circular(10.0),
-                          topRight: const Radius.circular(10.0))),
-                  accountName: Text("John Doe"),
-                  accountEmail: Text("123456@jp.com"),
-                  currentAccountPicture: CircleAvatar(
-                    backgroundColor: Theme.of(context).accentColor,
-                    child: Text("JD"),
-                  ),
+        decoration: new BoxDecoration(
+            borderRadius: new BorderRadius.only(
+                topLeft: const Radius.circular(11.0),
+                topRight: const Radius.circular(11.0))),
+        child: ListTileTheme(
+          selectedColor: Colors.lime[500],
+          child: new Column(
+            children: <Widget>[
+              new UserAccountsDrawerHeader(
+                margin: EdgeInsets.only(bottom: 0),
+                decoration: new BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                    borderRadius: new BorderRadius.only(
+                        topLeft: const Radius.circular(10.0),
+                        topRight: const Radius.circular(10.0))),
+                accountName: Text("John Doe"),
+                accountEmail: Text("123456@jp.com"),
+                currentAccountPicture: CircleAvatar(
+                  backgroundColor: Theme.of(context).accentColor,
+                  child: Text("JD"),
                 ),
-                Expanded(
-                  child: new ListView(children: <Widget>[
+              ),
+              Expanded(
+                child: Container(
+                  color: Colors.white,
+                  child: new Column(children: <Widget>[
                     items,
                     services,
                     new Divider(),
                     saved,
                     salvages,
                   ]),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
         ),
       );
@@ -206,6 +283,7 @@ class ListSelect extends StatelessWidget {
         borderRadius: new BorderRadius.all(Radius.circular(10.0)),
       ),
       child: new Material(
+        color: Colors.white,
         borderRadius: new BorderRadius.all(Radius.circular(10.0)),
         child: new InkWell(
           child: new ListTile(
