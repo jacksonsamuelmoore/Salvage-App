@@ -1,7 +1,9 @@
 import 'package:Salvage/SavedView.dart';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/services.dart';
+import 'package:random_words/random_words.dart';
 import 'ItemView.dart';
 import 'Search.dart';
 import 'ServicesView.dart';
@@ -48,6 +50,14 @@ class SalvageApp extends StatelessWidget {
 }
 
 final mainReference = FirebaseDatabase.instance.reference();
+void getData() {
+  for (var i = 1; i < 1000; i++) {
+    mainReference
+        .child('itemCards')
+        .child(i.toString())
+        .set({'name': WordNoun.random().asCapitalized, 'liked': false});
+  }
+}
 
 class AppScaffold extends StatefulWidget {
   AppScaffold({Key key}) : super(key: key);
