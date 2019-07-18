@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1082722834055-3fn7rm76np3g3u7cijnmv51ndij1o03a.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1082722834055-3fn7rm76np3g3u7cijnmv51ndij1o03a</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCz-vXfyePTbthB7tPmaFXnc6rM2L7RLa0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1082722834055</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>au.com.jacksonmoore.salvage</string>
+	<key>PROJECT_ID</key>
+	<string>salvage-app-jmanmini</string>
+	<key>STORAGE_BUCKET</key>
+	<string>salvage-app-jmanmini.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1082722834055:ios:35632ac40515ca57</string>
+	<key>DATABASE_URL</key>
+	<string>https://salvage-app-jmanmini.firebaseio.com</string>
+</dict>
+</plist>
