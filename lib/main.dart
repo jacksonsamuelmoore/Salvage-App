@@ -39,7 +39,6 @@ class SalvageApp extends StatelessWidget {
           primaryColorDark: Color(0xFF005005),
           accentColor: Colors.lime[500],
           brightness: Brightness.light,
-          //canvasColor: Colors.transparent,
           buttonColor: Colors.white),
       routes: {
         '/': (context) => new FrontPage(),
@@ -101,7 +100,6 @@ class _AppScaffoldState extends State<AppScaffold> {
         return false;
       },
       child: Scaffold(
-        //backgroundColor: Colors.transparent,
         bottomNavigationBar: BottomAppBar(
           color: Colors.green[600],
           child: new Row(

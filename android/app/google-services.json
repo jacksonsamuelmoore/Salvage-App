@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1082722834055",
+    "firebase_url": "https://salvage-app-jmanmini.firebaseio.com",
+    "project_id": "salvage-app-jmanmini",
+    "storage_bucket": "salvage-app-jmanmini.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1082722834055:android:35632ac40515ca57",
+        "android_client_info": {
+          "package_name": "au.com.jacksonmoore.salvage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1082722834055-gjgbpbpblhle7h65d7jadci20lupcc91.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBleUZl9mGdbVbTYGcyongB1NhgIbCLcbE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1082722834055-gjgbpbpblhle7h65d7jadci20lupcc91.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
