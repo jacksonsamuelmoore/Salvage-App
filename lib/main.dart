@@ -169,6 +169,7 @@ class _AppScaffoldState extends State<AppScaffold> {
                       leading: Icon(Icons.search, color: Colors.grey[700]),
                       title: Text("Search..."),
                       titleSpacing: 1,
+                      centerTitle: false,
                     ),
                   ),
                 ),
